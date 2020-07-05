@@ -1,17 +1,70 @@
+
+
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+function FormattedDate(props) {
+  return <h1 style ={{
+    fontSize: '3em',
+  color:'green'}}>{props.date.toLocaleTimeString()}.</h1>;
+}
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { date: new Date() };
+  }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          color: "white",
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+          backgroundColor: 'black',
+          fontSize: '1.5em',
+          lineHeight: '0.1',
+          letterSpacing: '0.2em',
+          fontFamily: 'cursive',
+          borderRadius:'1em'
+
+        }}
+      >
+        <h1 >Hello Friends!</h1>
+        <h1 >The is time</h1>
+        <FormattedDate date={this.state.date} />
+      </div>
+    );
+  }
+}
+
+function App() {
+  return (
+    <div>
+      <Clock />
+    </div>
+  );
+}
+ReactDOM.render(<App />, document.getElementById('root'));
